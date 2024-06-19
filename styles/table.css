@@ -1,0 +1,23 @@
+.about-table {
+    border-collapse: collapse;
+    width: 100%;
+    margin-top: 20px;
+}
+
+.about-table th, .about-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+.about-table th {
+    background-color: #f2f2f2;
+}
+
+.about-table th:first-child, .about-table td:first-child {
+    width: 30%;
+}
+
+.about-table th:first-child {
+    width: 20%;
+}

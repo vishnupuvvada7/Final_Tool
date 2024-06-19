@@ -1,0 +1,57 @@
+/* Styling for the container div */
+#dropdown{
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  background-color: #f9f9f9;
+  max-width: 300px;
+  margin: auto;
+  margin-bottom: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Styling for the label */
+label {
+  font-size: 1.2em;
+  margin-bottom: 20px;
+  color: #333;
+  font-weight: bold;
+}
+
+/* Styling for the select dropdown */
+#options{
+  width: 100%;
+  padding: 10px;
+  font-size: 1em;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #fff;
+  transition: border-color 0.3s ease;
+  margin-right: 10px;
+  font-family: "Times New Roman", Times, serif; /* Times New Roman font */
+}
+
+select:focus {
+  border-color: #007BFF;
+  outline: none;
+}
+
+/* Styling for the button */
+button {
+  padding: 10px 20px;
+  font-size: 1em;
+  color: #fff;
+  background-color: #007BFF;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  font-family: "Times New Roman", Times, serif; /* Times New Roman font */
+}
+
+button:hover {
+  background-color: #0056b3;
+}

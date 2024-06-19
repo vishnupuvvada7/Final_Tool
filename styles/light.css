@@ -1,0 +1,85 @@
+/* Light theme styles */
+
+body {
+    background-color: #f4f4f4;
+    color: #333;
+}
+
+
+.btn-12 {
+    background-color: #66a6eb;
+    color: #fff;
+    border: none;
+    border-radius: 20px;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn-12:hover {
+    background-color: #0056b3;
+}
+
+.checkboxInput[type="checkbox"]:checked + .toggleSwitch {
+    background-color: #007bff;
+}
+
+.checkboxInput[type="checkbox"]:checked + .toggleSwitch::before {
+    transform: translateX(26px);
+}
+
+.popup-window {
+    background-color: #fff;
+    border: 1px solid #ccc;
+}
+
+.popup-window ul li {
+    padding: 10px;
+    list-style: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.popup-window ul li:hover {
+    background-color: #f0f0f0;
+}
+
+.popup-window ul hr {
+    border-top: 1px solid #ccc;
+}
+
+.about-table {
+    width: 100%;
+    border-collapse: collapse;
+    border: 1px solid #ddd;
+}
+
+.about-table th, .about-table td {
+    padding: 8px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+.about-table th {
+    background-color: #f2f2f2;
+}
+
+#displayScreen {
+    width: 100%;
+    height: 200px;
+    margin-top: 10px;
+    background-color: #333333; /* Dark gray */
+    color: #ffffff;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: center;  /* Vertically center items */
+}
+
+.header img {
+    margin-right: 10px; /* Adjust margin as needed */
+}

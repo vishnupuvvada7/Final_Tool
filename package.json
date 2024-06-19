@@ -1,0 +1,36 @@
+{
+  "name": "audittool",
+  "version": "1.0.0",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "electron .",
+    "packager": "electron-packager . audittool --platform=win32 --arch=x64 --out=dist --overwrite"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "electron": "^30.0.9",
+    "electron-builder": "^24.13.3",
+    "electron-packager": "^17.1.2",
+    "wmic": "^1.1.1"
+  },
+  "build": {
+    "extraResources": [
+      {
+        "from": "Backend",
+        "to": "Backend"
+      },
+      {
+        "from": "bat",
+        "to": "bat"
+      },
+      {
+        "from": "styles",
+        "to": "styles"
+      }
+    ]
+  },
+  "description": ""
+}

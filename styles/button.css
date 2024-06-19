@@ -1,0 +1,65 @@
+
+.button {
+  flex: 1; /* Each button takes equal width */
+  padding: 12px 24px;
+  border: 1px solid #4f4f4f;
+  
+  border-radius: 4px;
+  transition: all 0.2s ease-in;
+  position: relative;
+  overflow: hidden;
+  font-size: 16px; /* Reduced font size for smaller buttons */
+  cursor: pointer;
+  color: whitesmoke;
+  background-color: 007bff;
+  z-index: 1;
+  margin: 5px;
+  height: 55px;
+}
+
+.button:before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%) scaleY(1) scaleX(1.25);
+  top: 100%;
+  width: 140%;
+  height: 180%;
+  background-color: rgba(0, 0, 0, 0.05);
+  border-radius: 50%;
+  display: block;
+  transition: all 0.5s 0.1s cubic-bezier(0.55, 0, 0.1, 1);
+  z-index: -1;
+}
+
+.button:after {
+  content: "";
+  position: absolute;
+  left: 50%; /* Centered horizontally */
+  transform: translateX(-50%) scaleY(1) scaleX(1.25); /* Adjusted scale for consistent size */
+  top: 100%; /* Positioned below the button */
+  width: 100%; /* Take full width */
+  height: 100%; /* Take full height */
+  background-color: #39bda7;
+  border-radius: 4px; /* Adjusted border radius to match button */
+  display: block;
+  transition: all 0.5s 0.1s cubic-bezier(0.55, 0, 0.1, 1);
+  z-index: -1;
+  opacity: 0; /* Initially hidden */
+}
+
+.button:hover {
+  color: #ffffff;
+  border: 1px solid #080808;
+}
+
+.button:hover:before,
+.button:hover:after {
+  top: -25%; /* Adjusted position */
+  background-color: #4cb0e6;
+  transform: translateX(-50%) scaleY(1.1) scaleX(0.9); /* Adjusted scale for hover effect */
+}
+
+.button:hover:after {
+  opacity: 1; /* Show the hover effect */
+}

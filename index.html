@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CAS Audit Tool</title>
+    <link rel="stylesheet" href="styles/loader.css">
+    <link rel="stylesheet" href="styles/table.css">
+    <link rel="stylesheet" href="styles/toggle.css">
+    <link rel="stylesheet" href="styles/button.css">
+    <link rel="stylesheet" href="styles/light.css">
+    <link rel="stylesheet" href="styles/dropdown.css">
+    <link rel="stylesheet" href="styles/card.css">
+   
+
+    <style>
+        #manga {
+            margin-top: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+
+
+<body>
+        <div class="header">
+            <img src="CAS.jpeg" height="75" width="75" alt="CAS Logo">
+            <h1>CAS AUDIT TOOL</h1>
+        </div>
+        <div id="manga">
+            <button class="button" onclick="toggleAutomateServices()"><span>About</span></button>
+            <button class="button" onclick="toggleManualServices()"><span>Manual</span></button>
+            <button class="button" onclick="openAutomateServices()"><span>Automate Services</span></button>
+            <button class="button" onclick="runAudit()"><span>Run Audit</span></button>
+            <button class="button" onclick="logsGeneration()"><span>Logs Generate</span></button>
+            <button class="button" onclick="openResultFile()"><span>Audit Report</span></button>
+        </div>
+        
+
+    <div id="dropdown">
+        
+        <select id="options">
+            <option value="%temp">%temp%</option>
+            <option value="temp">Temp</option>
+            <option value="prefetch">Prefetch</option>
+            <option value="recycle">Recycle Bin</option>
+        </select>
+        <button onclick="runFunction()">Clear</button>
+    </div>
+
+
+    <center>
+    <div id="loaderContainer" style="display: none;">
+        <div class="loader">
+            <svg viewBox="0 0 80 80">
+                <circle id="test" cx="40" cy="40" r="32"></circle>
+            </svg>
+        </div>
+        <div class="loader triangle">
+            <svg viewBox="0 0 86 80">
+                <polygon points="43 8 79 72 7 72"></polygon>
+            </svg>
+        </div>
+        <div class="loader">
+            <svg viewBox="0 0 80 80">
+                <rect x="8" y="8" width="64" height="64"></rect>
+            </svg>
+        </div>
+    </div>
+</center>
+
+    
+   
+
+
+    <div id="displayScreen"></div>
+
+    
+    <script>
+
+
+
+        function runFunction() {
+            var selectedOption = document.getElementById("options").value;
+            switch (selectedOption) {
+                case "%temp":
+                    // Call function for option 1
+                    temp_percent();
+                    break;
+                case "temp":
+                    // Call function for option 2
+                    temp();
+                    break;
+                case "prefetch":
+                    // Call function for option 3
+                    prefetch();
+                    break;
+                case "recycle":
+                    // Call function for option 4
+                    recycle();
+                    break;
+                default:
+                    // Default case
+                    console.log("No option selected.");
+            }
+        }
+
+        function temp_percent() {
+            showLoader();
+            ipcRenderer.send('percent-temp');
+        }
+
+        function temp() {
+            showLoader();
+            ipcRenderer.send('temp');
+        }
+
+        function prefetch() {
+            showLoader();
+            ipcRenderer.send('prefetch-off');
+        }
+
+        function recycle() {
+            showLoader();
+            ipcRenderer.send('recycle-off');
+        }
+
+
+
+        const { ipcRenderer } = require('electron');
+        var automationEnabled = false;
+        var manualEnabled = false;
+
+        function toggleAutomateServices() {
+            automationEnabled = !automationEnabled;
+            openAboutWindow();
+        }
+
+        function toggleManualServices() {
+            manualEnabled = !manualEnabled;
+            openManualWindow();
+        }
+
+        function openAutomateServices() {
+            showLoader();
+            ipcRenderer.send('services-off');
+        }
+
+        function runAudit() {
+            showLoader();
+            ipcRenderer.send('run-audit');
+        }
+
+        const { shell } = require('electron');
+        function openResultFile() {
+            // Replace 'system_info.pdf' with the actual path to your PDF file
+            shell.openPath('Audit_report.pdf')
+                .then(() => console.log('File opened'))
+                .catch(err => console.error('Error opening file:', err));
+        }
+
+        function logsGeneration() {
+            showLoader();
+            ipcRenderer.send('logs-generate');
+        }
+
+        
+        function openManualWindow() {
+            if (!manualEnabled) {
+                document.getElementById("aboutContent").innerHTML = "";
+                return;
+            }
+
+            var headers = ["Manual Tasks", "Process"]
+            var manualTasks = {
+                "Last Update Of Antivirus": {"Process":"Check In Antivirus"},
+                "Disable AutoPlay":{"Process":"In Windows Settings"},
+
+                "Disable Password Auto-Save": {"Process":"Password Settings In Browser"},
+                "Unwanted Softwares Delete":{"Process":"Use Control Panel"},
+
+                "secpol.msc->Acc pol->Pass pol": {"Process":"Password must meet complexity[Enable]"},
+                "secpol.msc->Local pol->Sec options":{"Process":"Machine inactivity limit[60secs]"},
+                "secpol.msc->Local pol->Acc Lockout Pol": {"Process":"Reset account lockout[10mins]"},
+                "If Bios-Password not Set": {"Process":"Set Bios Password <br> Restart the PC <br>->Press f2 continously <br>->Security <br>-> Set password or set user password <br>->Enter new password:Pass@123 <br>->Confirm new password:Pass@123 <br>->Press enter and pop up setup notice will appear which means that you have to reset BIOS PASSWORD <br>->Press f10 to save it and select yes to exit the pcwill log on automatically."},
+                "Keys to Boot menu":{"Process":"Acer: press f2 or del <br>Asus:press f2 or del <br>Dell:press f2 or f12 <br>Hp:press esc or f10 <br>Lenovo desktop:f1 <br>Lenovo laptop:press f2 <br> Lenovo thinkpad:press enter+f1"}
+            };
+
+
+
+
+            var manualContent = "<table class='about-table'>";
+            manualContent += "<tr>";
+            for (var i = 0; i < headers.length; i++) {
+                manualContent += "<th>" + headers[i] + "</th>";
+            }
+            manualContent += "</tr>";
+
+            var maxRows = Math.max(Object.keys(manualTasks).length);
+            for (var j = 0; j < maxRows; j++) {
+                manualContent += "<tr>";
+                manualContent += "<td>" + (Object.keys(manualTasks)[j] || "") + "</td>";
+                manualContent += "<td>" + (manualTasks[Object.keys(manualTasks)[j]].Process || "") + "</td>";
+                manualContent += "</tr>";
+            }
+            manualContent += "</table>";
+
+            document.getElementById("aboutContent").innerHTML = manualContent;
+        }
+
+
+     
+
+function openAboutWindow() {
+    if (!automationEnabled) {
+        document.getElementById("aboutContent").innerHTML = "";
+        return;
+    }
+    var Instructions = {
+        "Run Audit ": " This button generates the general data related to the PC",
+        "Result File ": "This button retrieves the pdf generated by 'run audit' and displays it to the user",
+        "Logs ": "This button generates the Windows Logs, USB logs and DNS logs.",
+        "Automate services ": "This button disables the RDP services, telnet, and enforces 6 out of 9 secpol policies.",
+        "Manual " : "The data displayed in this button are the manual tasks to be performed by the IT auditer",
+        "Drop-Down " : "The dropdown selects the type of cache files to be deletes, and the CLEAR button deletes the data accordingly",
+        "NOTE1 ": "The logs take time to generate, please wait for atleast 5 minutes. They will be generated in a folder on the desktop",
+        "NOTE2 " : " THE TOOL MUST BE RUN IN ADMIN USER TO PERFORM DESIRED TASKS ",
+        "NOTE3":"Child exited with code 0 : Something unknown happened executing the batch.[ EXECUTED SUCCESSFULLY ]",
+        "NOTE4":"Child exited with code 1 : The file already exists[ EXECUTION FAILED ]"
+    };
+
+    var aboutContent = "<p>About the CAS Audit Tool:</p>";
+    //aboutContent += "<table class='about-table'>";
+
+// Generate cards for General Audit
+aboutContent += generateCard("<h3>Instructions</h3>", Instructions);
+    
+
+
+
+    document.getElementById("aboutContent").innerHTML = aboutContent;
+    }
+    function generateCard(title, data) {
+    var cardHTML = "<div class='card'>";
+    cardHTML += "<div class='card-body'>";
+    cardHTML += "<h5 class='card-title'>" + title + "</h5>";
+    cardHTML += "<ul class='list-group list-group-flush'>";
+    for (var key in data) {
+        cardHTML += "<li class='list-group-item'>" + key + ": " + data[key] + "</li>";
+    }
+    cardHTML += "</ul>";
+    cardHTML += "</div>";
+    cardHTML += "</div>";
+    return cardHTML;
+}
+
+
+
+        function showLoader() {
+            document.getElementById('loaderContainer').style.display = 'block';
+        }
+
+        function hideLoader() {
+            document.getElementById('loaderContainer').style.display = 'none';
+        }
+
+        ipcRenderer.on('audit-result', (event, result) => {
+            hideLoader();
+            document.getElementById("displayScreen").innerText = result; // Display the result
+        });
+    </script>
+    <div id="aboutContent"></div>
+</body>
+</html>
